@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/Users/davidjones/Forge/CODE/Repos/aws_lambda/avg-mean-calculator'
+let g:netrw_dirhist_2='/Users/davidjones/Forge/CODE/Repos/aws_lambda/avg-mean-calculator/node_modules'
+let g:netrw_dirhist_3='/Users/davidjones/.vim/bundle/vim-airline/doc'
+let g:netrw_dirhist_4='/Users/davidjones/Forge/CODE/Repos/forge-tools/vike'
+let g:netrw_dirhist_5='/home/umo/CODE'
+let g:netrw_dirhist_6='/home/umo/CODE/dotfiles'
+let g:netrw_dirhist_7='/home/umo/CODE/dotfiles/tmux'
+let g:netrw_dirhist_8='/home/umo/CODE/dotfiles'
+let g:netrw_dirhist_9='/home/umo/CODE/dotfiles/tmux'
