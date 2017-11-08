@@ -4,13 +4,15 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"net"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Printf("Usage:\n    dcmd <vim|zsh|git|proxy|terraform|packer> <args...>\n")
+		fmt.Printf("Usage:\n    dcmd <vim|zsh|git|proxy|terraform|packer|firefox> <args...>\n")
 		os.Exit(1)
 	}
 	runContainer(os.Args[1:])
@@ -33,6 +35,9 @@ func runContainer(args []string) {
 		homeDir := os.Getenv("HOME")
 		awsCredsDir := fmt.Sprintf("%s/.aws:/root/.aws", homeDir)
 		cmdArgs = []string{"run", "-it", "-v", awsCredsDir, "-v", volumeBind, command.Name}
+	} else if command.Name == "jess/firefox" {
+		localIP := getLocalIP("en0")
+		cmdArgs = []string{"run", "-d", "--rm", "-e", fmt.Sprintf("DISPLAY=%s:0", localIP), "-v", "/tmp/.X11-unix:/tmp/.X11-unix", command.Name}
 	}
 
 	cmdArgsFinal := append(cmdArgs, args[1:]...)
@@ -77,7 +82,26 @@ func checkCommand(cmd string) (command, error) {
 		return command{"davyj0nes/zsh", true, curdir, "", false}, nil
 	case "aws":
 		return command{"davyj0nes/aws", false, curdir, "", false}, nil
+	case "firefox":
+		return command{"jess/firefox", false, curdir, "", false}, nil
 	default:
 		return command{}, errors.New("Unknown Command")
 	}
+}
+
+func getLocalIP(requiredIface string) string {
+	list, err := net.Interfaces()
+	if err != nil {
+		panic(err)
+	}
+	for _, iface := range list {
+		if iface.Name == requiredIface {
+			addrs, err := iface.Addrs()
+			if err != nil {
+				panic(err)
+			}
+			return strings.Split(fmt.Sprintf("%v", addrs[1]), "/")[0]
+		}
+	}
+	return "Interface Not Found"
 }

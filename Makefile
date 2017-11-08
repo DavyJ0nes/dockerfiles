@@ -43,11 +43,15 @@ packer:
 	$(call blue, "# Pulling Packer Image...")
 	docker pull hashicorp/packer:${packer_version}
 
+firefox:
+	$(call blue, "# Pulling Jess' Firefox Image...")
+	docker pull jess/firefox
+
 dcmd_install:
 	$(call blue, "# Installing dcmd...")
 	docker run --rm -it -v "$(CURDIR)/dcmd":/go/src/app -w /go/src/app golang:${goversion} sh -c '${go_build_cmd}'
 
-build_all: awscli git vim zsh terraform packer dcmd_install
+build_all: awscli git vim zsh terraform packer firefox dcmd_install
 
 ##### HELPER FUNCTIONS #####
 define blue
