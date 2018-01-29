@@ -11,6 +11,7 @@ This came from a personal desire to see if it was possible to run most of my too
 - git
 - vim
 - zsh
+- pytest
 - terraform
 - packer
 - firefox
