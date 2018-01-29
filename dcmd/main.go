@@ -31,7 +31,7 @@ func runContainer(args []string) {
 		cmdArgs = []string{"run", "-d", "-p", command.Ports, command.Name}
 	} else if command.Interactive {
 		cmdArgs = []string{"run", "-it", "-v", volumeBind, command.Name}
-	} else if command.Name == "davyj0nes/aws" {
+	} else if command.Name == "davyj0nes/awscli" {
 		homeDir := os.Getenv("HOME")
 		awsCredsDir := fmt.Sprintf("%s/.aws:/root/.aws", homeDir)
 		cmdArgs = []string{"run", "-it", "-v", awsCredsDir, "-v", volumeBind, command.Name}
@@ -76,12 +76,14 @@ func checkCommand(cmd string) (command, error) {
 		return command{"hashicorp/terraform:light", true, curdir, "", false}, nil
 	case "packer":
 		return command{"hashicorp/packer:light", true, curdir, "", false}, nil
+	case "pytest":
+		return command{"davyj0nes/pytest", false, curdir, "", false}, nil
 	case "proxy":
 		return command{"datadog/squid", false, curdir, "3128:3128", true}, nil
 	case "zsh":
 		return command{"davyj0nes/zsh", true, curdir, "", false}, nil
 	case "aws":
-		return command{"davyj0nes/aws", false, curdir, "", false}, nil
+		return command{"davyj0nes/awscli", false, curdir, "", false}, nil
 	case "firefox":
 		return command{"jess/firefox", false, curdir, "", false}, nil
 	default:
