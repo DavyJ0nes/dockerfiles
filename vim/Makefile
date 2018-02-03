@@ -1,4 +1,4 @@
-# App:     DavyJ0nes/vim
+# App:     davyj0nes/vim
 # Author:  DavyJ0nes
 # Github:  https://github.com/davyj0nes/
 #
@@ -14,12 +14,12 @@ version =
 #---------- BUILD STEPS ----------#
 build: check_version
 	$(call blue, "# Building Vim Image...")
-	docker build -t ${user}/${name} .
-	docker tag ${user}/${name}:latest ${user}/${name}:${version}
+	@docker build -t ${user}/${name} .
+	@docker tag ${user}/${name}:latest ${user}/${name}:${version}
 
 run:
 	$(call blue, "# Starting Vim...")
-	docker run -it -v "$(CURDIR)":/srv/app ${name}:latest
+	@docker run -it -v "$(CURDIR)":/src/app ${name}:latest
 
 #---------- HELP FUNCS -----------#
 check_version:
