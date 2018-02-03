@@ -12,7 +12,7 @@ import (
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Printf("Usage:\n    dcmd <vim|zsh|git|proxy|terraform|packer|firefox> <args...>\n")
+		fmt.Printf("Usage:\n    dcmd <vim|zsh|git|pytest|doom|proxy|terraform|packer|firefox> <args...>\n")
 		os.Exit(1)
 	}
 	runContainer(os.Args[1:])
@@ -24,7 +24,7 @@ func runContainer(args []string) {
 		panic(err)
 	}
 
-	volumeBind := fmt.Sprintf("%s:/srv/app", command.Volume)
+	volumeBind := fmt.Sprintf("%s:/src/app", command.Volume)
 	cmdArgs := []string{"run", "-v", volumeBind, command.Name}
 
 	if command.Proxy {
@@ -80,6 +80,8 @@ func checkCommand(cmd string) (command, error) {
 		return command{"davyj0nes/pytest", false, curdir, "", false}, nil
 	case "proxy":
 		return command{"datadog/squid", false, curdir, "3128:3128", true}, nil
+	case "doom":
+		return command{"davyj0nes/doom", false, "", "5900:5900", false}, nil
 	case "zsh":
 		return command{"davyj0nes/zsh", true, curdir, "", false}, nil
 	case "aws":
