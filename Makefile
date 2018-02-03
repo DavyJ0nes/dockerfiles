@@ -17,7 +17,7 @@ goversion ?= 1.9
 go_build_cmd = go get && GOOS=darwin GOARCH=amd64 go install
 
 # Needed to not have make thing these are directories
-.PHONY: awscli git vim zsh pytest
+.PHONY: awscli git vim zsh pytest doom
 
 ##### BUILD STEPS #####
 awscli:
@@ -40,6 +40,14 @@ pytest:
 	$(call blue, "# Building pytest Image...")
 	${dockerbuild} ${user}/pytest pytest/
 
+firefox:
+	$(call blue, "# Building Firefox Image...")
+	${dockerbuild} ${user}/firefox firefox/
+
+doom:
+	$(call blue, "# Building Doom Image...")
+	${dockerbuild} ${user}/doom doom/
+
 terraform:
 	$(call blue, "# Pulling Terraform Image...")
 	docker pull hashicorp/terraform:${terraform_version}
@@ -52,9 +60,6 @@ squid:
 	$(call blue, "# Pulling Squid Image...")
 	docker pull datadog/squid
 
-firefox:
-	$(call blue, "# Pulling Jess' Firefox Image...")
-	docker pull jess/firefox
 
 dcmd_install:
 	$(call blue, "# Installing dcmd...")
@@ -62,7 +67,7 @@ dcmd_install:
 
 build_all: awscli git vim zsh pytest terraform packer squid firefox dcmd_install
 
-push: awscli git zsh pytest
+push: awscli git zsh pytest firefox doom
 	$(call blue, "# Pushing awscli Image...")
 	@docker push docker.io/${user}/awscli:latest
 	$(call blue, "# Pushing git Image...")
@@ -73,6 +78,10 @@ push: awscli git zsh pytest
 	@docker push docker.io/${user}/zsh:latest
 	$(call blue, "# Pushing pytest Image...")
 	@docker push docker.io/${user}/pytest:latest
+	$(call blue, "# Pushing firefox Image...")
+	@docker push docker.io/${user}/firefox:latest
+	$(call blue, "# Pushing doom Image...")
+	@docker push docker.io/${user}/doom:latest
 
 ##### HELPER FUNCTIONS #####
 define blue

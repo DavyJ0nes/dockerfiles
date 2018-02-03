@@ -1,13 +1,12 @@
 FROM ubuntu
 
-# Install vnc, xvfb in order to create a 'fake' display and firefox
 RUN apt-get update && apt-get install -y x11vnc xvfb doom-wad-shareware libglu1
 
 COPY * /root/
 
 WORKDIR /root
 
-RUN mkdir ~/.vnc
+RUN mkdir ~/.vnc && echo "exec /root/doomlegacy" >> /root/.bashrc
 
 # Setup a password
 RUN x11vnc -storepasswd 1234 ~/.vnc/passwd
