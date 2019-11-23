@@ -18,6 +18,8 @@ This came from a personal desire to see if it was possible to run most of my too
 - [terraform](https://hub.docker.com/r/hashicorp/terraform/)
 - [packer](https://hub.docker.com/r/hashicorp/packer/)
 - [firefox](https://hub.docker.com/r/jess/firefox/)
+- [jsonnet](https://hub.docker.com/r/davyj0nes/jsonnet/)
+- [jb](https://hub.docker.com/r/davyj0nes/jb/)
 
 ## Usage
 

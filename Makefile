@@ -12,11 +12,11 @@ terraform_version ?= light
 packer_version ?= light
 app = dcmd
 app_version ?= 0.1
-goversion ?= 1.9
+goversion ?= 1.12
 go_build_cmd = go get && GOOS=darwin GOARCH=amd64 go install
 
 # Needed to not have make thing these are directories
-.PHONY: awscli git vim zsh pytest doom simple-builder
+.PHONY: awscli git vim zsh pytest doom simple-builder jsonnet
 
 ##### BUILD STEPS #####
 awscli:
@@ -43,6 +43,14 @@ firefox:
 	$(call blue, "# Building Firefox Image...")
 	${dockerbuild} ${user}/firefox firefox/
 
+jb:
+	$(call blue, "# Building jb Image...")
+	${dockerbuild} ${user}/jb jb/
+
+jsonnet:
+	$(call blue, "# Building Jsonnet Image...")
+	${dockerbuild} ${user}/jsonnet jsonnet/
+
 doom:
 	$(call blue, "# Building Doom Image...")
 	${dockerbuild} ${user}/doom doom/
@@ -54,6 +62,7 @@ travis_cli:
 terraform:
 	$(call blue, "# Pulling Terraform Image...")
 	docker pull hashicorp/terraform:${terraform_version}
+
 packer:
 	$(call blue, "# Pulling Packer Image...")
 	docker pull hashicorp/packer:${packer_version}
@@ -70,7 +79,7 @@ dcmd_install:
 	$(call blue, "# Installing dcmd...")
 	docker run --rm -it -v "$(CURDIR)/dcmd":/go/src/app -w /go/src/app golang:${goversion} sh -c '${go_build_cmd}'
 
-build_all: awscli git vim zsh pytest terraform12 terraform packer squid firefox dcmd_install
+build_all: awscli git vim zsh pytest jsonnet terraform12 terraform packer squid firefox dcmd_install
 
 push-simple-builder: simple-builder
 	$(call blue, "# Pushing simple-builder Image...")
@@ -78,7 +87,7 @@ push-simple-builder: simple-builder
 	@docker push docker.io/${user}/simple-builder:latest
 	@docker push docker.io/${user}/simple-builder:0.0.1
 
-push: awscli git zsh pytest firefox doom
+push: awscli git zsh pytest vim jsonnet jb firefox doom
 	$(call blue, "# Pushing awscli Image...")
 	@docker push docker.io/${user}/awscli:latest
 	$(call blue, "# Pushing git Image...")
@@ -93,6 +102,10 @@ push: awscli git zsh pytest firefox doom
 	@docker push docker.io/${user}/firefox:latest
 	$(call blue, "# Pushing doom Image...")
 	@docker push docker.io/${user}/doom:latest
+	$(call blue, "# Pushing jb Image...")
+	@docker push docker.io/${user}/jb:latest
+	$(call blue, "# Pushing jsonnet Image...")
+	@docker push docker.io/${user}/jsonnet:latest
 	$(call blue, "# Pushing travis Image...")
 	@docker push docker.io/${user}/travis:latest
 
