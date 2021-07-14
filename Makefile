@@ -16,7 +16,7 @@ goversion ?= 1.12
 go_build_cmd = go get && GOOS=darwin GOARCH=amd64 go install
 
 # Needed to not have make thing these are directories
-.PHONY: awscli git vim zsh pytest doom simple-builder jsonnet
+.PHONY: awscli git vim zsh pytest doom simple-builder jsonnet jb
 
 ##### BUILD STEPS #####
 awscli:
@@ -87,27 +87,28 @@ push-simple-builder: simple-builder
 	@docker push docker.io/${user}/simple-builder:latest
 	@docker push docker.io/${user}/simple-builder:0.0.1
 
-push: awscli git zsh pytest vim jsonnet jb firefox doom
-	$(call blue, "# Pushing awscli Image...")
-	@docker push docker.io/${user}/awscli:latest
-	$(call blue, "# Pushing git Image...")
-	@docker push docker.io/${user}/git:latest
-	$(call blue, "# Pushing vim Image...")
-	@docker push docker.io/${user}/vim:latest
-	$(call blue, "# Pushing zsh Image...")
-	@docker push docker.io/${user}/zsh:latest
-	$(call blue, "# Pushing pytest Image...")
-	@docker push docker.io/${user}/pytest:latest
-	$(call blue, "# Pushing firefox Image...")
-	@docker push docker.io/${user}/firefox:latest
-	$(call blue, "# Pushing doom Image...")
-	@docker push docker.io/${user}/doom:latest
+# push: awscli git zsh pytest vim jsonnet jb firefox doom
+push:
+	# $(call blue, "# Pushing awscli Image...")
+	# @docker push docker.io/${user}/awscli:latest
+	# $(call blue, "# Pushing git Image...")
+	# @docker push docker.io/${user}/git:latest
+	# $(call blue, "# Pushing vim Image...")
+	# @docker push docker.io/${user}/vim:latest
+	# $(call blue, "# Pushing zsh Image...")
+	# @docker push docker.io/${user}/zsh:latest
+	# $(call blue, "# Pushing pytest Image...")
+	# @docker push docker.io/${user}/pytest:latest
+	# $(call blue, "# Pushing firefox Image...")
+	# @docker push docker.io/${user}/firefox:latest
+	# $(call blue, "# Pushing doom Image...")
+	# @docker push docker.io/${user}/doom:latest
 	$(call blue, "# Pushing jb Image...")
 	@docker push docker.io/${user}/jb:latest
-	$(call blue, "# Pushing jsonnet Image...")
-	@docker push docker.io/${user}/jsonnet:latest
-	$(call blue, "# Pushing travis Image...")
-	@docker push docker.io/${user}/travis:latest
+	# $(call blue, "# Pushing jsonnet Image...")
+	# @docker push docker.io/${user}/jsonnet:latest
+	# $(call blue, "# Pushing travis Image...")
+	# @docker push docker.io/${user}/travis:latest
 
 ##### HELPER FUNCTIONS #####
 define blue

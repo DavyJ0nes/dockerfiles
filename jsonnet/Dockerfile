@@ -1,6 +1,6 @@
 FROM sparkprime/jsonnet AS source
 
-FROM alpine:3.10
+FROM alpine:3.12
 
 LABEL MAINTAINER=davyj0nes
 
